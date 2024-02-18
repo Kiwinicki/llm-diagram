@@ -1,0 +1,46 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.container {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 8px;
+  background: MediumSeaGreen;
+  position: relative;
+}
+.container::after {
+  content: '';
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid black;
+  transform: translateY(-5px);
+}
+.container .container {
+  background: LightPink;
+}
+.container .container .container {
+  background: PaleTurquoise;
+}
+.container .container .container .container {
+  background: orange;
+}
+.container.last::after {
+  content: '';
+  display: none;
+}

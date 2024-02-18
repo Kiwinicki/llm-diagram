@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <p style="font-weight: bold">💡hover elements to see details</p>
+    <div class="flex">
+      <div class="container" title="context">
+        previous tokens eg. "Cat sat on the..."
+      </div>
+      <div
+        class="container"
+        title="converting string to indexes of words (tokens)"
+      >
+        tokenization: "Cat sat on the" =>
+        <code>["&ltsos&gt", "Cat", "sat", "on", "the"]</code> =>
+        <code>[1, 38, 12, 435, 52]</code>
+      </div>
+      <div class="container">
+        Decoder-only model (eg. ChatGPT)
+        <div class="flex">
+          <p
+            class="container"
+            title="gets vector coresponding to its row index in embeddingg table (basically lookup table for vectors); it easier to computer to understand numbers than words"
+          >
+            Embedding
+          </p>
+          <div
+            class="container"
+            title="'communication followed by computation' (block that is reapeated many times)"
+          >
+            Decoder &times; N
+            <div class="flex">
+              <div
+                class="container"
+                title="communication part, each word (token) is able to find and 'talk' with other words; multiple heads enable taking many aspects of sequence in parallel"
+              >
+                Multi-head-attention (one head here)
+                <div class="flex">
+                  <div>
+                    <div class="container" title="Query - what I'm looking for">
+                      Q
+                    </div>
+                    <div class="container" title="Key - what can I offer">
+                      K
+                    </div>
+                    <div class="container" title="Value - my actual content">
+                      V
+                    </div>
+                  </div>
+                  <div
+                    class="container"
+                    title="everything inside softmax produces weight matrix that is multiplied by V matrix"
+                  >
+                    $$softmax(\frac{Q*K^T}{\sqrt{head\_size}} + Mask)*V$$
+                  </div>
+                </div>
+              </div>
+              <div
+                class="container"
+                title="Residual/skip connection - add output of attention with version before attention; implementation detail; make easier to train model (better gradients flow)"
+              >
+                +
+              </div>
+              <div
+                class="container"
+                title="implementation detail; prevents gradients from vanishing or exploding (restores normal distribution of gradients - var=1, mean=0)"
+              >
+                Layer Norm
+              </div>
+              <div
+                class="container"
+                title="same as first attention (see description there)"
+              >
+                Multi-head-attention
+              </div>
+              <div class="container">+</div>
+              <div class="container">Layer Norm</div>
+              <div class="container" title="computation part">
+                Feed Forward
+                <div class="flex">
+                  <div class="container">Linear</div>
+                  <div class="container">ReLU</div>
+                  <div class="container">Linear</div>
+                </div>
+              </div>
+              <div
+                class="container"
+                title="Residual/skip connection - add output of attention with version before attention; implementation detail; make easier to train model (better gradients flow)"
+              >
+                +
+              </div>
+              <div
+                class="container"
+                title="implementation detail; prevents gradients from vanishing or exploding (restores normal distribution of gradients - var=1, mean=0)"
+              >
+                Layer Norm
+              </div>
+            </div>
+          </div>
+          <div
+            class="container"
+            title="last computation before taking decision what token should be next"
+          >
+            Linear
+          </div>
+          <div
+            class="container"
+            title="converts output from Linear to probability distribution (all values positive and sum up to 1)"
+          >
+            Softmax
+          </div>
+          <div
+            class="container"
+            title="the simpliest way is to pick index with highest value (Greedy decoding); other techniques: 'temperature', top-p sampling"
+          >
+            sampling from distribution
+          </div>
+        </div>
+      </div>
+      <div
+        class="container last"
+        title="it need be 'detokenize' - that means converted from index to human readable word piece"
+      >
+        next predicted token "...mat"
+      </div>
+    </div>
+    and repeat
+  </body>
+</html>
